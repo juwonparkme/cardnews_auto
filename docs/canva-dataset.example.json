@@ -1,0 +1,110 @@
+{
+  "cover_title": {
+    "type": "text"
+  },
+  "card_01_album": {
+    "type": "text"
+  },
+  "card_01_artist": {
+    "type": "text"
+  },
+  "card_01_type": {
+    "type": "text"
+  },
+  "card_01_summary": {
+    "type": "text"
+  },
+  "card_01_cover": {
+    "type": "image"
+  },
+  "card_02_album": {
+    "type": "text"
+  },
+  "card_02_artist": {
+    "type": "text"
+  },
+  "card_02_type": {
+    "type": "text"
+  },
+  "card_02_summary": {
+    "type": "text"
+  },
+  "card_02_cover": {
+    "type": "image"
+  },
+  "card_03_album": {
+    "type": "text"
+  },
+  "card_03_artist": {
+    "type": "text"
+  },
+  "card_03_type": {
+    "type": "text"
+  },
+  "card_03_summary": {
+    "type": "text"
+  },
+  "card_03_cover": {
+    "type": "image"
+  },
+  "card_04_album": {
+    "type": "text"
+  },
+  "card_04_artist": {
+    "type": "text"
+  },
+  "card_04_type": {
+    "type": "text"
+  },
+  "card_04_summary": {
+    "type": "text"
+  },
+  "card_04_cover": {
+    "type": "image"
+  },
+  "card_05_album": {
+    "type": "text"
+  },
+  "card_05_artist": {
+    "type": "text"
+  },
+  "card_05_type": {
+    "type": "text"
+  },
+  "card_05_summary": {
+    "type": "text"
+  },
+  "card_05_cover": {
+    "type": "image"
+  },
+  "card_06_album": {
+    "type": "text"
+  },
+  "card_06_artist": {
+    "type": "text"
+  },
+  "card_06_type": {
+    "type": "text"
+  },
+  "card_06_summary": {
+    "type": "text"
+  },
+  "card_06_cover": {
+    "type": "image"
+  },
+  "card_07_album": {
+    "type": "text"
+  },
+  "card_07_artist": {
+    "type": "text"
+  },
+  "card_07_type": {
+    "type": "text"
+  },
+  "card_07_summary": {
+    "type": "text"
+  },
+  "card_07_cover": {
+    "type": "image"
+  }
+}
