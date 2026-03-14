@@ -10,6 +10,8 @@ export function loadConfig(): AppConfig {
     cacheDir: readEnv("CARDNEWS_CACHE_DIR") ?? path.join(os.homedir(), ".cache", "cardnews-auto"),
     spotifyClientId: readEnv("SPOTIFY_CLIENT_ID"),
     spotifyClientSecret: readEnv("SPOTIFY_CLIENT_SECRET"),
+    openAiApiKey: readEnv("OPENAI_API_KEY"),
+    openAiModel: readEnv("OPENAI_MODEL") ?? "gpt-5",
   };
 }
 
