@@ -1,0 +1,37 @@
+import os from "node:os";
+import path from "node:path";
+
+import type { AppConfig } from "./types.js";
+
+export function loadConfig(): AppConfig {
+  return {
+    brandTemplateId: readEnv("CANVA_BRAND_TEMPLATE_ID"),
+    outputDir: readEnv("CARDNEWS_OUTPUT_DIR") ?? path.join(os.homedir(), "Desktop"),
+  };
+}
+
+export function resolveOutputPath(outputPath: string | undefined, title: string, outputDir: string): string {
+  if (outputPath) {
+    return path.resolve(outputPath);
+  }
+
+  const timestamp = new Date().toISOString().replace(/[:]/g, "-").replace(/\..+$/, "");
+  const slug = slugify(title) || "cardnews";
+
+  return path.join(outputDir, `${slug}-${timestamp}.pdf`);
+}
+
+function readEnv(name: string): string | undefined {
+  const value = process.env[name]?.trim();
+
+  return value ? value : undefined;
+}
+
+function slugify(value: string): string {
+  return value
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9가-힣\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-");
+}

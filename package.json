@@ -1,0 +1,17 @@
+{
+  "name": "cardnews_auto",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "cardnews": "./dist/cli/index.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "render": "pnpm build && node dist/cli/index.js render"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.0",
+    "typescript": "^5.9.3"
+  }
+}
