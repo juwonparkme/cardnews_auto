@@ -4,6 +4,34 @@ export type AlbumInput = {
   imagePath?: string;
 };
 
+export type SourceSite = "melon" | "bugs" | "spotify";
+
+export type SearchCandidate = {
+  albumId: string;
+  albumTitle: string;
+  artistName: string;
+  albumType?: string;
+  releaseDate?: string;
+  coverImageUrl?: string;
+  sourceSite: SourceSite;
+  sourceUrl: string;
+  score: number;
+};
+
+export type AlbumSourceRecord = {
+  albumId: string;
+  albumTitle: string;
+  artistName: string;
+  albumType?: string;
+  albumIntro?: string;
+  coverImageUrl?: string;
+  releaseDate?: string;
+  label?: string;
+  totalTracks?: number;
+  sourceSite: SourceSite;
+  sourceUrl: string;
+};
+
 export type RenderOptions = {
   outputPath?: string;
   templateId?: string;
@@ -29,4 +57,7 @@ export type CardnewsInput = {
 export type AppConfig = {
   brandTemplateId?: string;
   outputDir: string;
+  cacheDir: string;
+  spotifyClientId?: string;
+  spotifyClientSecret?: string;
 };

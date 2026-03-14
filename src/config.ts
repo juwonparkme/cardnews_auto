@@ -7,6 +7,9 @@ export function loadConfig(): AppConfig {
   return {
     brandTemplateId: readEnv("CANVA_BRAND_TEMPLATE_ID"),
     outputDir: readEnv("CARDNEWS_OUTPUT_DIR") ?? path.join(os.homedir(), "Desktop"),
+    cacheDir: readEnv("CARDNEWS_CACHE_DIR") ?? path.join(os.homedir(), ".cache", "cardnews-auto"),
+    spotifyClientId: readEnv("SPOTIFY_CLIENT_ID"),
+    spotifyClientSecret: readEnv("SPOTIFY_CLIENT_SECRET"),
   };
 }
 
