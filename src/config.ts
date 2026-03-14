@@ -5,6 +5,11 @@ import type { AppConfig } from "./types.js";
 
 export function loadConfig(): AppConfig {
   return {
+    canvaAccessToken: readEnv("CANVA_ACCESS_TOKEN"),
+    canvaRefreshToken: readEnv("CANVA_REFRESH_TOKEN"),
+    canvaClientId: readEnv("CANVA_CLIENT_ID"),
+    canvaClientSecret: readEnv("CANVA_CLIENT_SECRET"),
+    canvaRedirectUri: readEnv("CANVA_REDIRECT_URI"),
     brandTemplateId: readEnv("CANVA_BRAND_TEMPLATE_ID"),
     outputDir: readEnv("CARDNEWS_OUTPUT_DIR") ?? path.join(os.homedir(), "Desktop"),
     cacheDir: readEnv("CARDNEWS_CACHE_DIR") ?? path.join(os.homedir(), ".cache", "cardnews-auto"),

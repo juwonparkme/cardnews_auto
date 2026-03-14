@@ -32,6 +32,32 @@ export type AlbumSourceRecord = {
   sourceUrl: string;
 };
 
+export type PreparedAlbumCard = {
+  albumTitle: string;
+  artistName: string;
+  albumType?: string;
+  summary: string;
+  coverAssetPath?: string;
+  sourceSite: SourceSite;
+  sourceUrl: string;
+};
+
+export type CanvaDatasetValue =
+  | { type: "text"; text: string }
+  | { type: "image"; asset_id: string };
+
+export type CanvaAutofillData = Record<string, CanvaDatasetValue>;
+
+export type CanvaRenderResult = {
+  designId: string;
+  designTitle?: string;
+  editUrl?: string;
+  viewUrl?: string;
+  designUrl?: string;
+  thumbnailUrl?: string;
+  jobId: string;
+};
+
 export type RenderOptions = {
   outputPath?: string;
   templateId?: string;
@@ -55,9 +81,16 @@ export type CardnewsInput = {
 };
 
 export type AppConfig = {
+  canvaAccessToken?: string;
+  canvaRefreshToken?: string;
+  canvaClientId?: string;
+  canvaClientSecret?: string;
+  canvaRedirectUri?: string;
   brandTemplateId?: string;
   outputDir: string;
   cacheDir: string;
   spotifyClientId?: string;
   spotifyClientSecret?: string;
+  openAiApiKey?: string;
+  openAiModel: string;
 };
