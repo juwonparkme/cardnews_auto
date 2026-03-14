@@ -3,6 +3,7 @@
 import process from "node:process";
 
 import { collectRenderInput } from "./prompts.js";
+import { runRenderJob } from "../jobs/render-job-runner.js";
 import { loadConfig, resolveOutputPath } from "../config.js";
 import type { RenderOptions } from "../types.js";
 
@@ -36,15 +37,16 @@ async function runRender(args: string[]): Promise<void> {
   const input = await collectRenderInput(options, defaults);
   const outputPath = resolveOutputPath(options.outputPath, input.title, config.outputDir);
   const finalInput = { ...input, outputPath };
-
-  process.stdout.write("\n수집 완료\n");
-  process.stdout.write(`${JSON.stringify(finalInput, null, 2)}\n\n`);
-  process.stdout.write("다음 단계는 5번 검색/스크래핑 구현임.\n");
+  await runRenderJob({
+    ...finalInput,
+    prepareOnly: options.prepareOnly,
+  });
 }
 
 function parseRenderOptions(args: string[]): RenderOptions {
   const options: RenderOptions = {
     skipCanvaEdit: false,
+    prepareOnly: false,
   };
 
   for (let index = 0; index < args.length; index += 1) {
@@ -61,6 +63,9 @@ function parseRenderOptions(args: string[]): RenderOptions {
         break;
       case "--skip-canva-edit":
         options.skipCanvaEdit = true;
+        break;
+      case "--prepare-only":
+        options.prepareOnly = true;
         break;
       case "--help":
       case "-h":
@@ -88,7 +93,7 @@ function printHelp(): void {
   process.stdout.write(`cardnews CLI
 
 사용법:
-  cardnews render [--output <path>] [--template <id>] [--skip-canva-edit]
+  cardnews render [--output <path>] [--template <id>] [--skip-canva-edit] [--prepare-only]
 
 명령:
   render              카드뉴스 입력 수집
@@ -97,6 +102,7 @@ function printHelp(): void {
   --output            PDF 저장 경로
   --template          Canva Brand Template ID
   --skip-canva-edit   Canva 편집 단계 건너뜀
+  --prepare-only      Canva 호출 없이 준비 데이터까지만 생성
   -h, --help          도움말
 `);
 }

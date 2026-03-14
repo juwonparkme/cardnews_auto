@@ -8,7 +8,9 @@ export async function renderCardnewsDesign(
 ): Promise<CanvaRenderResult> {
   const client = new CanvaClient();
   const dataset = await client.getBrandTemplateDataset(brandTemplateId);
-  const data = buildAutofillData(title, cards);
+  const cardsWithAssets = await uploadCardCoverAssets(cards);
+  let data = buildAutofillData(title, cardsWithAssets);
+  data = injectCoverAssets(data, cardsWithAssets);
 
   validateDatasetKeys(dataset, data);
 
@@ -42,10 +44,6 @@ export function buildAutofillData(title: string, cards: PreparedAlbumCard[]): Ca
       type: "text",
       text: card.summary,
     };
-
-    if (card.coverAssetPath) {
-      throw new Error("coverAssetPath 직접 주입은 지원 안 함. Canva asset id 필요.");
-    }
   });
 
   return data;
@@ -53,7 +51,7 @@ export function buildAutofillData(title: string, cards: PreparedAlbumCard[]): Ca
 
 export async function uploadCardCoverAssets(cards: PreparedAlbumCard[]): Promise<PreparedAlbumCard[]> {
   const client = new CanvaClient();
-  const nextCards: PreparedAlbumCard[] = [];
+  const nextCards: Array<PreparedAlbumCard & { canvaAssetId?: string; canvaCoverField?: string }> = [];
 
   for (let index = 0; index < cards.length; index += 1) {
     const card = cards[index];

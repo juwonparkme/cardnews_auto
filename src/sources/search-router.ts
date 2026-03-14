@@ -4,26 +4,28 @@ import { fetchSpotifyAlbumDetails, searchSpotifyAlbums } from "./spotify.js";
 import type { AlbumInput, AlbumSourceRecord, SearchCandidate } from "../types.js";
 
 export async function resolveAlbumSource(input: AlbumInput, cacheDir: string): Promise<AlbumSourceRecord> {
-  const candidates = await collectCandidates(input, cacheDir);
+  const [melonCandidates, bugsCandidates, spotifyCandidates] = await Promise.all([
+    searchMelonAlbums({ ...input, cacheDir }),
+    searchBugsAlbums({ ...input, cacheDir }),
+    searchSpotifyAlbums({ ...input, cacheDir }),
+  ]);
+  const candidates = [...melonCandidates, ...bugsCandidates, ...spotifyCandidates].sort((left, right) => right.score - left.score);
 
   if (candidates.length === 0) {
     throw new Error(`검색 결과 없음: ${input.albumName} / ${input.artistName}`);
   }
 
-  const primary = candidates[0];
-  const details = await fetchBySite(primary, cacheDir);
+  const introCandidate = melonCandidates[0] ?? bugsCandidates[0] ?? candidates[0];
+  const metadataCandidate = spotifyCandidates[0] ?? melonCandidates[0] ?? bugsCandidates[0] ?? candidates[0];
+  const introRecord = await fetchBySite(introCandidate, cacheDir);
+  const metadataRecord = await fetchBySite(metadataCandidate, cacheDir);
 
-  if (details.albumIntro?.trim()) {
-    return mergeMetadata(details, await enrichWithMetadata(primary, cacheDir));
+  if (introRecord.albumIntro?.trim()) {
+    return mergeMetadata(introRecord, metadataRecord);
   }
 
-  const introFallback = candidates.find((candidate) => candidate.sourceSite === "melon" || candidate.sourceSite === "bugs");
-  const metadataFallback = candidates.find((candidate) => candidate.sourceSite === "spotify");
-
-  const introRecord = introFallback ? await fetchBySite(introFallback, cacheDir) : details;
-  const metadataRecord = metadataFallback ? await fetchBySite(metadataFallback, cacheDir) : details;
-
-  return mergeMetadata(introRecord, metadataRecord);
+  const bugsRecord = bugsCandidates[0] ? await fetchBySite(bugsCandidates[0], cacheDir) : metadataRecord;
+  return mergeMetadata(introRecord, bugsRecord);
 }
 
 export async function collectCandidates(input: AlbumInput, cacheDir: string): Promise<SearchCandidate[]> {

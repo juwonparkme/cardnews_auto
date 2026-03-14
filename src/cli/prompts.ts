@@ -37,6 +37,7 @@ export async function collectRenderInput(
       outputPath,
       templateId: templateId || undefined,
       skipCanvaEdit: options.skipCanvaEdit,
+      prepareOnly: options.prepareOnly,
     };
   } finally {
     rl.close();
@@ -71,6 +72,7 @@ async function collectRenderInputFromPipe(
     outputPath,
     templateId: templateId || undefined,
     skipCanvaEdit: options.skipCanvaEdit,
+    prepareOnly: options.prepareOnly,
   };
 }
 

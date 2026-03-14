@@ -68,6 +68,7 @@ export type RenderOptions = {
   outputPath?: string;
   templateId?: string;
   skipCanvaEdit: boolean;
+  prepareOnly: boolean;
 };
 
 export type CardnewsInput = {
@@ -84,6 +85,7 @@ export type CardnewsInput = {
   outputPath: string;
   templateId?: string;
   skipCanvaEdit: boolean;
+  prepareOnly: boolean;
 };
 
 export type AppConfig = {
