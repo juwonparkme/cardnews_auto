@@ -2,7 +2,7 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 
 import { getCanvaAccessToken } from "./auth.js";
-import type { CanvaAutofillData, CanvaRenderResult } from "../types.js";
+import type { CanvaAutofillData, CanvaExportResult, CanvaRenderResult } from "../types.js";
 
 type CanvaDatasetResponse = {
   dataset?: {
@@ -39,6 +39,20 @@ type CanvaAutofillJobResponse = {
           view_url?: string;
         };
       };
+    };
+    error?: {
+      message?: string;
+    };
+  };
+};
+
+type CanvaExportJobResponse = {
+  job: {
+    id: string;
+    status: "in_progress" | "success" | "failed";
+    result?: {
+      urls?: string[];
+      download_urls?: string[];
     };
     error?: {
       message?: string;
@@ -135,6 +149,43 @@ export class CanvaClient {
     }
 
     throw new Error("Canva autofill timeout");
+  }
+
+  async createPdfExportJob(designId: string): Promise<CanvaExportResult> {
+    const created = await this.request<CanvaExportJobResponse>("/exports", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        design_id: designId,
+        format: {
+          type: "pdf",
+        },
+      }),
+    });
+
+    const jobId = created.job.id;
+
+    for (let attempt = 0; attempt < 60; attempt += 1) {
+      const current = await this.request<CanvaExportJobResponse>(`/exports/${jobId}`);
+      const downloadUrl = current.job.result?.download_urls?.[0] ?? current.job.result?.urls?.[0];
+
+      if (current.job.status === "success" && downloadUrl) {
+        return {
+          jobId,
+          downloadUrl,
+        };
+      }
+
+      if (current.job.status === "failed") {
+        throw new Error(`Canva export 실패: ${current.job.error?.message ?? "unknown error"}`);
+      }
+
+      await delay(1500);
+    }
+
+    throw new Error("Canva export timeout");
   }
 
   private async request<T>(pathname: string, init: RequestInit = {}): Promise<T> {

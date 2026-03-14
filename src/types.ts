@@ -58,6 +58,12 @@ export type CanvaRenderResult = {
   jobId: string;
 };
 
+export type CanvaExportResult = {
+  jobId: string;
+  downloadUrl: string;
+  pdfPath?: string;
+};
+
 export type RenderOptions = {
   outputPath?: string;
   templateId?: string;
