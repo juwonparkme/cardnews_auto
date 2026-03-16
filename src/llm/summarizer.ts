@@ -33,37 +33,43 @@ export async function summarizeAlbumIntro(intro: string, albumTitle: string, art
     return fallbackSummary(cleaned);
   }
 
-  const response = await fetch("https://api.openai.com/v1/responses", {
-    method: "POST",
-    headers: {
-      authorization: `Bearer ${config.openAiApiKey}`,
-      "content-type": "application/json",
-    },
-    body: JSON.stringify({
-      model: config.openAiModel,
-      input: [
-        {
-          role: "system",
-          content: [{ type: "input_text", text: SUMMARY_PROMPT }],
-        },
-        {
-          role: "user",
-          content: [
-            {
-              type: "input_text",
-              text: `앨범명: ${albumTitle}\n가수명: ${artistName}\n\n[앨범 소개]\n${cleaned}`,
-            },
-          ],
-        },
-      ],
-      text: {
-        format: {
-          type: "text",
-        },
+  let response: Response;
+
+  try {
+    response = await fetch("https://api.openai.com/v1/responses", {
+      method: "POST",
+      headers: {
+        authorization: `Bearer ${config.openAiApiKey}`,
+        "content-type": "application/json",
       },
-    }),
-    signal: AbortSignal.timeout(30_000),
-  });
+      body: JSON.stringify({
+        model: config.openAiModel,
+        input: [
+          {
+            role: "system",
+            content: [{ type: "input_text", text: SUMMARY_PROMPT }],
+          },
+          {
+            role: "user",
+            content: [
+              {
+                type: "input_text",
+                text: `앨범명: ${albumTitle}\n가수명: ${artistName}\n\n[앨범 소개]\n${cleaned}`,
+              },
+            ],
+          },
+        ],
+        text: {
+          format: {
+            type: "text",
+          },
+        },
+      }),
+      signal: AbortSignal.timeout(30_000),
+    });
+  } catch {
+    return fallbackSummary(cleaned);
+  }
 
   if (!response.ok) {
     return fallbackSummary(cleaned);

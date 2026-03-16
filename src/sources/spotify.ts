@@ -44,15 +44,23 @@ export const searchSpotifyAlbums: SearchAlbumsFn = async ({ albumName, artistNam
 
   const token = await getSpotifyToken(cacheDir, spotifyClientId, spotifyClientSecret);
   const query = `album:${albumName} artist:${artistName}`;
-  const response = await fetchJson<SpotifySearchResponse>(
-    `https://api.spotify.com/v1/search?q=${encodeURIComponent(query)}&type=album&limit=5&market=KR`,
-    {
-      headers: {
-        authorization: `Bearer ${token}`,
-        accept: "application/json",
-      },
-    },
-  );
+  let response: SpotifySearchResponse;
+
+  try {
+    response = await fetchSpotifyJson<SpotifySearchResponse>(
+      [
+        `https://api.spotify.com/v1/search?q=${encodeURIComponent(query)}&type=album&limit=5&market=KR`,
+        `https://api.spotify.com/v1/search?q=${encodeURIComponent(query)}&type=album&limit=5`,
+      ],
+      token,
+    );
+  } catch (error) {
+    if (error instanceof Error && error.message.includes("HTTP 403")) {
+      return [];
+    }
+
+    throw error;
+  }
 
   const candidates = (response.albums?.items ?? [])
     .map((album) => {
@@ -102,12 +110,33 @@ export const fetchSpotifyAlbumDetails: FetchAlbumDetailsFn = async (candidate, c
   }
 
   const token = await getSpotifyToken(cacheDir, spotifyClientId, spotifyClientSecret);
-  const album = await fetchJson<SpotifyAlbum>(`https://api.spotify.com/v1/albums/${candidate.albumId}?market=KR`, {
-    headers: {
-      authorization: `Bearer ${token}`,
-      accept: "application/json",
-    },
-  });
+  let album: SpotifyAlbum;
+
+  try {
+    album = await fetchSpotifyJson<SpotifyAlbum>(
+      [
+        `https://api.spotify.com/v1/albums/${candidate.albumId}?market=KR`,
+        `https://api.spotify.com/v1/albums/${candidate.albumId}`,
+      ],
+      token,
+    );
+  } catch (error) {
+    if (error instanceof Error && error.message.includes("HTTP 403")) {
+      return {
+        albumId: candidate.albumId,
+        albumTitle: candidate.albumTitle,
+        artistName: candidate.artistName,
+        albumType: candidate.albumType,
+        albumIntro: undefined,
+        coverImageUrl: candidate.coverImageUrl,
+        releaseDate: candidate.releaseDate,
+        sourceSite: "spotify",
+        sourceUrl: candidate.sourceUrl,
+      };
+    }
+
+    throw error;
+  }
 
   const record: AlbumSourceRecord = {
     albumId: album.id,
@@ -155,4 +184,27 @@ async function getSpotifyToken(cacheDir: string, clientId: string, clientSecret:
   await writeCache(cacheDir, "spotify-token", clientId, json.access_token, TOKEN_TTL_MS);
 
   return json.access_token;
+}
+
+async function fetchSpotifyJson<T>(urls: string[], token: string): Promise<T> {
+  let lastError: Error | undefined;
+
+  for (const url of urls) {
+    try {
+      return await fetchJson<T>(url, {
+        headers: {
+          authorization: `Bearer ${token}`,
+          accept: "application/json",
+        },
+      });
+    } catch (error) {
+      if (!(error instanceof Error) || !error.message.includes("HTTP 403")) {
+        throw error;
+      }
+
+      lastError = error;
+    }
+  }
+
+  throw lastError ?? new Error("Spotify 요청 실패");
 }
