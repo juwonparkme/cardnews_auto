@@ -6,7 +6,7 @@ const SUMMARY_PROMPT = [
   "- 한국어",
   "- 2문장",
   "- 카드뉴스 본문 3줄 분량",
-  "- 총 55~85자 안팎",
+  "- 총 70~110자 안팎",
   "- 첫 문장: 장르, 사운드, 리듬, 보컬 중심",
   "- 둘째 문장: 무드, 정서, 전개 중심",
   "- 소개글이 있으면 우선 참고",
@@ -17,8 +17,8 @@ const SUMMARY_PROMPT = [
   "- 앨범명/가수명 반복 최소화",
 ].join("\n");
 
-const MIN_SUMMARY_LENGTH = 52;
-const MAX_SUMMARY_LENGTH = 110;
+const MIN_SUMMARY_LENGTH = 68;
+const MAX_SUMMARY_LENGTH = 130;
 
 const MUSIC_HINTS = [
   /리듬/u,

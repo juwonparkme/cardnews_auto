@@ -6,7 +6,7 @@ const MAX_DISPLAY_UNITS = {
   artistName: 13.2,
 };
 
-const MAX_SUMMARY_LENGTH = 82;
+const MAX_SUMMARY_LENGTH = 112;
 const ELLIPSIS = "…";
 
 export function formatCoverTitle(title: string): string {

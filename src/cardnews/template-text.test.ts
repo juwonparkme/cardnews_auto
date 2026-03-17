@@ -25,7 +25,7 @@ test("요약은 줄바꿈 제거 후 길이 예산 안으로 자름", () => {
     "레트로 디스코 펑크 타이틀로 그루비한 보컬과 관악·퍼커션이 에너지를 터뜨린다.\n사랑의 경쾌함에서 이별의 침잠으로 흐르는 R&B·UK 개러지·아프로팝 등 다채로운 사운드.",
   );
 
-  assert.ok(summary.length <= 82);
+  assert.ok(summary.length <= 112);
   assert.ok(!summary.includes("\n"));
 });
 
