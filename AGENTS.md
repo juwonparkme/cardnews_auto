@@ -7,3 +7,4 @@
 - 수동 갱신이 필요하면 레포 루트에서 `pnpm canva:refresh-token` 실행.
 - `refresh_token` 은 회전될 수 있으니, 수동 `curl` 로 갱신했더라도 응답의 새 `refresh_token` 으로 `.env` 를 바로 덮어쓴다.
 - `pnpm canva:refresh-token` 이 `400` 으로 실패하면 refresh token 이 이미 만료/재사용된 상태일 가능성이 높다. 이 경우 Canva OAuth 승인부터 다시 진행하고, 새 `access_token`/`refresh_token` 을 `.env` 에 저장한다.
+- Canva OAuth 재인증은 `pnpm canva:reauth` 로 실행한다. 로컬 콜백 서버를 띄우고 브라우저를 열어 승인 후 `.env` 를 자동 갱신한다.
