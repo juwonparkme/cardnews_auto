@@ -167,6 +167,7 @@ v1 템플릿은 다음으로 고정:
 
 운영 규칙:
 - 길면 summarizer 단계에서 재요약
+- 런타임에서도 album/artist/summary를 템플릿 budget 기준으로 한 번 더 정규화
 - type이 비면 빈칸 허용
 
 ## Canva 수동 제작 절차

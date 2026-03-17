@@ -2,6 +2,7 @@ import type { AlbumInput, PreparedAlbumCard } from "../types.js";
 import { resolveAlbumSource } from "../sources/search-router.js";
 import { summarizeAlbumIntro } from "../llm/summarizer.js";
 import { resolveCoverAssetPath } from "../assets/asset-resolver.js";
+import { formatTemplateCardText } from "./template-text.js";
 
 export async function prepareAlbumCards(albums: AlbumInput[], cacheDir: string): Promise<PreparedAlbumCard[]> {
   const cards: PreparedAlbumCard[] = [];
@@ -13,16 +14,21 @@ export async function prepareAlbumCards(albums: AlbumInput[], cacheDir: string):
     const sourceRecord = await resolveAlbumSource(input, cacheDir);
     const summary = await summarizeAlbumIntro(
       sourceRecord.albumIntro ?? "",
-      sourceRecord.albumTitle,
-      sourceRecord.artistName,
+      input.albumName || sourceRecord.albumTitle,
+      input.artistName || sourceRecord.artistName,
     );
     const coverAssetPath = await resolveCoverAssetPath(input, sourceRecord);
 
-    cards.push({
+    const displayText = formatTemplateCardText({
+      requestedAlbumTitle: input.albumName,
       albumTitle: sourceRecord.albumTitle,
       artistName: sourceRecord.artistName,
       albumType: normalizeAlbumType(sourceRecord.albumType),
       summary,
+    });
+
+    cards.push({
+      ...displayText,
       coverAssetPath,
       sourceSite: sourceRecord.sourceSite,
       sourceUrl: sourceRecord.sourceUrl,

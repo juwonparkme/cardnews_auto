@@ -71,11 +71,9 @@ export class CanvaClient {
   async uploadAsset(filePath: string): Promise<string> {
     const body = await readFile(filePath);
     const fileName = path.basename(filePath);
-    const metadata = Buffer.from(
-      JSON.stringify({
-        name_base64: Buffer.from(fileName).toString("base64"),
-      }),
-    ).toString("base64");
+    const metadata = JSON.stringify({
+      name_base64: Buffer.from(fileName).toString("base64"),
+    });
 
     const created = await this.request<CanvaAssetUploadJobResponse>("/asset-uploads", {
       method: "POST",
@@ -124,7 +122,7 @@ export class CanvaClient {
 
     const jobId = created.job.id;
 
-    for (let attempt = 0; attempt < 60; attempt += 1) {
+    for (let attempt = 0; attempt < 180; attempt += 1) {
       const current = await this.request<CanvaAutofillJobResponse>(`/autofills/${jobId}`);
 
       if (current.job.status === "success" && current.job.result?.design) {

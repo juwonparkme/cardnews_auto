@@ -1,5 +1,6 @@
 import { CanvaClient } from "./client.js";
 import type { CanvaAutofillData, CanvaRenderResult, PreparedAlbumCard } from "../types.js";
+import { formatCoverTitle } from "../cardnews/template-text.js";
 
 export async function renderCardnewsDesign(
   brandTemplateId: string,
@@ -21,7 +22,7 @@ export function buildAutofillData(title: string, cards: PreparedAlbumCard[]): Ca
   const data: CanvaAutofillData = {
     cover_title: {
       type: "text",
-      text: title,
+      text: formatCoverTitle(title),
     },
   };
 
@@ -89,6 +90,10 @@ export function injectCoverAssets(
 }
 
 function validateDatasetKeys(dataset: Record<string, { type: string }>, data: CanvaAutofillData): void {
+  if (Object.keys(dataset).length === 0) {
+    throw new Error("Canva dataset 비어 있음. Brand Template에 Data Autofill 필드가 설정되지 않았거나 비어 있음.");
+  }
+
   const missing = Object.keys(data).filter((key) => !(key in dataset));
 
   if (missing.length > 0) {
