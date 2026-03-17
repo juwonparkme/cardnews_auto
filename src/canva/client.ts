@@ -188,8 +188,8 @@ export class CanvaClient {
     throw new Error("Canva export timeout");
   }
 
-  private async request<T>(pathname: string, init: RequestInit = {}): Promise<T> {
-    const accessToken = await getCanvaAccessToken();
+  private async request<T>(pathname: string, init: RequestInit = {}, forceRefresh = false): Promise<T> {
+    const accessToken = await getCanvaAccessToken({ forceRefresh });
     const response = await fetch(`${this.baseUrl}${pathname}`, {
       ...init,
       headers: {
@@ -201,6 +201,11 @@ export class CanvaClient {
 
     if (!response.ok) {
       const body = await response.text();
+
+      if (!forceRefresh && response.status === 401 && isRetriableTokenError(body)) {
+        return this.request(pathname, init, true);
+      }
+
       throw new Error(`Canva API 실패 ${response.status}: ${body}`);
     }
 
@@ -210,4 +215,8 @@ export class CanvaClient {
 
 function delay(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function isRetriableTokenError(body: string): boolean {
+  return body.includes("invalid_access_token") || body.includes("revoked_access_token");
 }

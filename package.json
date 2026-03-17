@@ -8,7 +8,8 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "render": "pnpm build && node dist/cli/index.js render"
+    "render": "pnpm build && node dist/cli/index.js render",
+    "canva:refresh-token": "pnpm build && node dist/scripts/refresh-canva-token.js"
   },
   "devDependencies": {
     "@types/node": "^25.5.0",

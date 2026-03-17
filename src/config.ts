@@ -1,8 +1,10 @@
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import os from "node:os";
 import path from "node:path";
 
 import type { AppConfig } from "./types.js";
+
+const ENV_PATH = path.resolve(".env");
 
 loadDotEnv();
 
@@ -34,6 +36,52 @@ export function resolveOutputPath(outputPath: string | undefined, title: string,
   return path.join(outputDir, `${slug}-${timestamp}.pdf`);
 }
 
+export function updateDotEnv(updates: Record<string, string | undefined>): void {
+  const lines = existsSync(ENV_PATH) ? readFileSync(ENV_PATH, "utf8").split(/\r?\n/) : [];
+  const remaining = new Map(
+    Object.entries(updates).filter((entry): entry is [string, string] => typeof entry[1] === "string"),
+  );
+
+  for (let index = 0; index < lines.length; index += 1) {
+    const line = lines[index];
+
+    if (!line || line.trimStart().startsWith("#")) {
+      continue;
+    }
+
+    const separatorIndex = line.indexOf("=");
+
+    if (separatorIndex === -1) {
+      continue;
+    }
+
+    const key = line.slice(0, separatorIndex).trim();
+    const nextValue = remaining.get(key);
+
+    if (nextValue === undefined) {
+      continue;
+    }
+
+    lines[index] = `${key}=${nextValue}`;
+    remaining.delete(key);
+  }
+
+  for (const [key, value] of remaining) {
+    lines.push(`${key}=${value}`);
+  }
+
+  const serialized = lines.join("\n").replace(/\n*$/, "\n");
+  writeFileSync(ENV_PATH, serialized, "utf8");
+
+  for (const [key, value] of Object.entries(updates)) {
+    if (typeof value === "string") {
+      process.env[key] = value;
+    } else {
+      delete process.env[key];
+    }
+  }
+}
+
 function readEnv(name: string): string | undefined {
   const value = process.env[name]?.trim();
 
@@ -50,13 +98,11 @@ function slugify(value: string): string {
 }
 
 function loadDotEnv(): void {
-  const envPath = path.resolve(".env");
-
-  if (!existsSync(envPath)) {
+  if (!existsSync(ENV_PATH)) {
     return;
   }
 
-  const raw = readFileSync(envPath, "utf8");
+  const raw = readFileSync(ENV_PATH, "utf8");
 
   for (const line of raw.split(/\r?\n/)) {
     const trimmed = line.trim();
