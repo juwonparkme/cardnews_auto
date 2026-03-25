@@ -9,6 +9,8 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "render": "pnpm build && node dist/cli/index.js render",
+    "pptx:phase1-sample": "pnpm build && node dist/scripts/generate-pptx-phase1-sample.js",
+    "pptx:render": "pnpm build && node dist/scripts/generate-pptx-cardnews.js",
     "canva:refresh-token": "pnpm build && node dist/scripts/refresh-canva-token.js",
     "canva:reauth": "pnpm build && node dist/scripts/canva-reauth.js"
   },
@@ -16,5 +18,8 @@
     "@types/node": "^25.5.0",
     "playwright": "^1.58.2",
     "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "pptxgenjs": "^4.0.1"
   }
 }

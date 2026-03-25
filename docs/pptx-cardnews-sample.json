@@ -1,0 +1,51 @@
+{
+  "coverTitle": "인디 추천곡",
+  "cards": [
+    {
+      "title": "Ditto",
+      "artist": "NewJeans",
+      "type": "싱글",
+      "summary": "미니멀한 클럽 비트와 따뜻한 신스, 속삭이는 보컬이 어우러진 담백한 팝처럼 들린다. 흐릿한 필름색 그리움이 서서히 번지고, 가까워졌다가 멀어지는 마음의 파동을 조용히 따라가게 하는 무드가 난다.",
+      "imagePath": "images/1.jpg"
+    },
+    {
+      "title": "작전명 청-춘!",
+      "artist": "잔나비",
+      "type": "EP",
+      "summary": "빈티지한 밴드 사운드와 경쾌한 리듬, 힘을 빼고 뻗는 보컬이 자유롭게 흐른다. 들뜬 질주감과 풋풋한 낭만이 한데 섞이며, 청춘의 한복판을 달리는 듯한 무드가 난다.",
+      "imagePath": "images/2.jpg"
+    },
+    {
+      "title": "Better",
+      "artist": "스탠딩 에그",
+      "type": "정규",
+      "summary": "어쿠스틱 팝인 듯한 담백한 사운드에 잔잔한 리듬, 속삭이듯 맑은 보컬이 중심. 제목처럼 조금 더 나아지는 무드로 서서히 밝아지는 전개처럼 들린다.",
+      "imagePath": "images/3.jpg"
+    },
+    {
+      "title": "어떻게 이별까지…",
+      "artist": "AKMU",
+      "type": "정규",
+      "summary": "포크 팝 기반의 담백한 어쿠스틱 사운드와 또렷한 보컬이 섬세한 리듬을 이끈다. 이별을 곱씹는 담담한 무드 속에서 서사가 차분히 번져가며 여운이 길게 남는 듯하다.",
+      "imagePath": "images/4.jpg"
+    },
+    {
+      "title": "사랑하는 너에게",
+      "artist": "숨비",
+      "type": "싱글",
+      "summary": "포크 발라드 기반의 잔잔한 어쿠스틱 사운드와 호흡을 살린 보컬이 중심이다. 일기 쓰듯 담담히 흐르며, 사랑하는 이에게 건네는 속삭임 같은 무드가 난다.",
+      "imagePath": "images/5.jpg"
+    },
+    {
+      "title": "Kidd",
+      "artist": "새소년",
+      "type": "싱글",
+      "summary": "인디 록 기반의 거친 기타와 탄력 있는 리듬, 맑지만 서늘한 보컬이 맞물린 사운드처럼 들린다. 미완의 반항과 호기심이 번지는 청춘 무드, 서서히 타오르는 전개가 느껴진다.",
+      "imagePath": "images/6.jpg"
+    }
+  ],
+  "endLead": "인디음악의 취향을",
+  "endBody": "정리한 카드뉴스를 계속 발행합니다.",
+  "endHandle": "https://www.youtube.com/@inst_taw",
+  "endEmail": "hello@reallygreatsite.com"
+}
