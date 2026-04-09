@@ -40,7 +40,7 @@ v1 템플릿은 다음으로 고정:
 ## 디자인 방향
 
 참고 파일:
-- [`inst_cardnews.pdf`](/Users/bagjuwon/Projects/cardnews_auto/inst_cardnews.pdf)
+- [`inst_cardnews.pdf`](../src/inst_cardnews.pdf)
 
 고정 방향:
 - 4:5 비율

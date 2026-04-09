@@ -97,8 +97,34 @@ export type AppConfig = {
   brandTemplateId?: string;
   outputDir: string;
   cacheDir: string;
+  promptsDir: string;
+  runsDir: string;
   spotifyClientId?: string;
   spotifyClientSecret?: string;
   openAiApiKey?: string;
   openAiModel: string;
+};
+
+export type RenderRunReport = {
+  runId: string;
+  title: string;
+  requestedAlbums: AlbumInput[];
+  outputPath: string;
+  templateId?: string;
+  prepareOnly: boolean;
+  skipCanvaEdit: boolean;
+  status:
+    | "started"
+    | "prepared"
+    | "rendered"
+    | "exported"
+    | "failed";
+  cards?: PreparedAlbumCard[];
+  designId?: string;
+  editUrl?: string;
+  viewUrl?: string;
+  pdfPath?: string;
+  error?: string;
+  startedAt: string;
+  updatedAt: string;
 };

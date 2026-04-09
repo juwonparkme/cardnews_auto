@@ -18,6 +18,8 @@ export function loadConfig(): AppConfig {
     brandTemplateId: readEnv("CANVA_BRAND_TEMPLATE_ID"),
     outputDir: readEnv("CARDNEWS_OUTPUT_DIR") ?? path.join(os.homedir(), "Desktop"),
     cacheDir: readEnv("CARDNEWS_CACHE_DIR") ?? path.join(os.homedir(), ".cache", "cardnews-auto"),
+    promptsDir: readEnv("CARDNEWS_PROMPTS_DIR") ?? path.resolve("prompts"),
+    runsDir: readEnv("CARDNEWS_RUNS_DIR") ?? path.join(os.homedir(), "Desktop", "cardnews-runs"),
     spotifyClientId: readEnv("SPOTIFY_CLIENT_ID"),
     spotifyClientSecret: readEnv("SPOTIFY_CLIENT_SECRET"),
     openAiApiKey: readEnv("OPENAI_API_KEY"),
@@ -34,6 +36,13 @@ export function resolveOutputPath(outputPath: string | undefined, title: string,
   const slug = slugify(title) || "cardnews";
 
   return path.join(outputDir, `${slug}-${timestamp}.pdf`);
+}
+
+export function resolveRunDir(title: string, runsDir: string): string {
+  const timestamp = new Date().toISOString().replace(/[:]/g, "-").replace(/\..+$/, "");
+  const slug = slugify(title) || "cardnews";
+
+  return path.join(runsDir, `${timestamp}-${slug}`);
 }
 
 export function updateDotEnv(updates: Record<string, string | undefined>): void {

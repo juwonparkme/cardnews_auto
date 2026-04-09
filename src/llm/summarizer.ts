@@ -1,24 +1,10 @@
 import { loadConfig } from "../config.js";
+import { loadPrompt } from "../utils/prompt-loader.js";
 
-const SUMMARY_PROMPT = [
-  "아래 정보를 바탕으로 카드뉴스용 앨범 소개문을 써.",
-  "조건:",
-  "- 한국어",
-  "- 2문장",
-  "- 카드뉴스 본문 3줄 분량",
-  "- 총 70~110자 안팎",
-  "- 첫 문장: 장르, 사운드, 리듬, 보컬 중심",
-  "- 둘째 문장: 무드, 정서, 전개 중심",
-  "- 소개글이 있으면 우선 참고",
-  "- 소개글이 부족하면 앨범명과 가수명에서 읽히는 분위기를 인상 묘사로만 보완 가능",
-  "- 홍보성 과장 금지",
-  "- 발매일, 데뷔 시기, 차트, 성과, 협업, 팬덤 언급 금지",
-  "- 사실 단정이 어렵다면 '~처럼 들린다', '~무드가 난다'처럼 표현",
-  "- 앨범명/가수명 반복 최소화",
-].join("\n");
+const SUMMARY_PROMPT = loadPrompt("album-summary.md");
 
-const MIN_SUMMARY_LENGTH = 68;
-const MAX_SUMMARY_LENGTH = 130;
+const MIN_SUMMARY_LENGTH = 130;
+const MAX_SUMMARY_LENGTH = 200;
 
 const MUSIC_HINTS = [
   /리듬/u,

@@ -6,7 +6,7 @@
 - 실행 방식은 우선 `CLI`
 - Canva 안에서 최종 편집
 - 결과물은 최종적으로 `PDF` 로 사용자 컴퓨터에 저장
-- 참고 디자인: [`inst_cardnews.pdf`](/Users/bagjuwon/Projects/cardnews_auto/inst_cardnews.pdf)
+- 참고 디자인: [`inst_cardnews.pdf`](../src/inst_cardnews.pdf)
 - 총 페이지 수는 `8페이지 고정`
 - 구성은 `표지 1페이지 + 앨범 7페이지`
 

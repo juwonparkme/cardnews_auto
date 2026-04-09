@@ -89,7 +89,7 @@ pnpm pptx:render docs/pptx-cardnews-sample.json /tmp/cardnews-full-sample.pptx
 
 샘플 입력:
 
-- [pptx-cardnews-sample.json](/Users/bagjuwon/Projects/cardnews_auto/docs/pptx-cardnews-sample.json)
+- [pptx-cardnews-sample.json](./pptx-cardnews-sample.json)
 
 ### 5. Keynote 에서 수동 수정
 

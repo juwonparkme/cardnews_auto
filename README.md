@@ -20,6 +20,8 @@ pnpm build
 - `SPOTIFY_CLIENT_SECRET`
 - `CANVA_ACCESS_TOKEN` 또는 `CANVA_REFRESH_TOKEN` + `CANVA_CLIENT_ID` + `CANVA_CLIENT_SECRET`
 - `CANVA_BRAND_TEMPLATE_ID`
+- `CARDNEWS_PROMPTS_DIR`
+- `CARDNEWS_RUNS_DIR`
 
 ## 명령
 
@@ -40,6 +42,19 @@ pnpm pptx:render docs/pptx-cardnews-sample.json /tmp/cardnews-full-sample.pptx
 - 커버 이미지 자동 다운로드
 - Canva Brand Template autofill
 - Canva PDF export
+- 실행별 `run-summary.json` 기록
+
+## 프롬프트
+
+- summary 프롬프트: [album-summary.md](./prompts/album-summary.md)
+- 기본 경로: `./prompts`
+- override: `CARDNEWS_PROMPTS_DIR`
+
+## 실행 리포트
+
+- 기본 경로: `~/Desktop/cardnews-runs`
+- 각 실행마다 `<timestamp>-<slug>/run-summary.json` 생성
+- override: `CARDNEWS_RUNS_DIR`
 
 ## 검증 상태
 
@@ -55,14 +70,15 @@ pnpm pptx:render docs/pptx-cardnews-sample.json /tmp/cardnews-full-sample.pptx
 
 ## PPTX 경로
 
-- 샘플 입력: [pptx-cardnews-sample.json](/Users/bagjuwon/Projects/cardnews_auto/docs/pptx-cardnews-sample.json)
+- 샘플 입력: [pptx-cardnews-sample.json](./docs/pptx-cardnews-sample.json)
 - 1장 샘플: `pnpm pptx:phase1-sample /tmp/cardnews-phase1-sample.pptx`
 - 전체 deck: `pnpm pptx:render docs/pptx-cardnews-sample.json /tmp/cardnews-full-sample.pptx`
 
 ## 문서
 
-- [카드뉴스 자동화 아키텍처](/Users/bagjuwon/Projects/cardnews_auto/docs/architecture.md)
-- [Canva 템플릿 준비](/Users/bagjuwon/Projects/cardnews_auto/docs/canva-template-prep.md)
-- [이미지 자동화 작업 계획](/Users/bagjuwon/Projects/cardnews_auto/docs/image-automation-plan.md)
-- [PPTX 전환 작업 계획](/Users/bagjuwon/Projects/cardnews_auto/docs/pptx-keynote-plan.md)
-- [PPTX 작업 순서](/Users/bagjuwon/Projects/cardnews_auto/docs/pptx-keynote-workflow.md)
+- [카드뉴스 자동화 아키텍처](./docs/architecture.md)
+- [카드뉴스 AI 에이전트 설계서](./docs/agent-design-brief.md)
+- [Canva 템플릿 준비](./docs/canva-template-prep.md)
+- [이미지 자동화 작업 계획](./docs/image-automation-plan.md)
+- [PPTX 전환 작업 계획](./docs/pptx-keynote-plan.md)
+- [PPTX 작업 순서](./docs/pptx-keynote-workflow.md)

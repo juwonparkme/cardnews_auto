@@ -15,7 +15,7 @@
 ## 최종 목표
 
 1. 카드뉴스 데이터를 기반으로 `PPTX` 파일 자동 생성
-2. 디자인은 [`src/inst_cardnews.pdf`](/Users/bagjuwon/Projects/cardnews_auto/src/inst_cardnews.pdf) 와 최대한 동일하게 유지
+2. 디자인은 [`src/inst_cardnews.pdf`](../src/inst_cardnews.pdf) 와 최대한 동일하게 유지
 3. 제목, 아티스트, 타입, summary, 커버 이미지를 각기 수정 가능한 레이어로 출력
 4. 사용자는 `Keynote` 또는 `PowerPoint` 에서 직접 수정 가능
 5. 필요 시 수정본을 다시 PDF 로 export 가능
